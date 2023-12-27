@@ -1,0 +1,31 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Values.pdb.backend.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.selname }}
+  minAvailable: {{ .Values.pdb.backend.minAvailable }}
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Values.pdb.frontend.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.frontend.selname }}
+  minAvailable: {{ .Values.pdb.frontend.minAvailable}}
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Values.pdb.mongodb.name }}
+spec:
+  selector:
+    matchLabels:
+      app:  {{ .Values.mongodbs.selname }}
+  minAvailable: {{ .Values.pdb.mongodb.minAvailable}}

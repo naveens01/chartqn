@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "cronjob.name" .}}
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote}}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Values.cronjob.containerName }}
+            image: {{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag}}
+            command: ["/bin/sh", "-c"]
+            args:
+            - mongodump --host=mongodb-service --port= {{ .Values.cronjob.port}}  --out=/backup
+            volumeMounts:
+            - name: {{ .Values.cronjob.volumeMountName }}
+              mountPath: /backup
+          volumes:
+          - name: {{ .Values.cronjob.volumeMountName }}
+            emptyDir: {}
+          restartPolicy: {{ .Values.cronjob.restartPolicy}}

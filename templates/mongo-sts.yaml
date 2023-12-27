@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  serviceName: "mongo"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: {{ .Values.mongodbs.selname}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongodbs.selname}}
+    spec:
+      containers:
+      - name: {{ .Values.mongodbs.selname}}
+        image: {{ .Values.mongodbs.image.repository }}:{{ .Values.mongodbs.image.tag}}
+        ports:
+        - containerPort: {{ .Values.mongodbs.service.port}}
+        volumeMounts:
+        - name: {{ .Values.mongodbs.volumeMount}}
+          mountPath: /data/db
+         
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.mongodbs.volumeMount}}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "ebs-gp3"
+      resources:
+        requests:
+          storage: {{ .Values.mongodbs.storage}}

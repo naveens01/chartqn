@@ -1,0 +1,92 @@
+#frontend
+
+frontend:
+  replicaCount: 1
+  selname: myapp
+  containerName: myapp
+  image:
+    repository: naveens01/new-client
+    tag: latest
+    pullPolicy: Always
+  port: 3000
+
+  service:
+    port: 80
+    targetPort: 3000
+    type: NodePort
+
+#backend
+
+backend:
+  replicas: 1
+  selname: server
+  containerName: server
+  image:
+    repository: naveens01/new-server
+    tag: latest
+    pullPolicy: Always
+  port: 5001
+
+  service: 
+    type: NodePort
+    port: 80
+    targetPort: 5001
+
+#mongodb-sts
+mongodbs:
+  selname: mongo
+  image:
+    repository: mongo
+    tag: latest
+  service:
+    type: LoadBalancer
+    port: 27017
+    targetPort: 27017
+  volumeMount: mongo-persistent-storage
+  storage: 1Gi
+  auth:
+    enabled: true
+
+
+#cronjob
+cronjob:
+  schedule: 0 3 * * *
+  containerName: mongodb-backup-container
+  image:
+    repository: mongo
+    tag: latest
+  port: 27017
+  volumeMountName: backup-volume
+  restartPolicy: OnFailure
+
+
+
+#pvc
+pvc:
+  storage: 1Gi
+
+#pdb
+pdb:
+  frontend:
+    name: frontend-pdb
+    minAvailable: 1
+
+  backend:
+    name: backend-pdb
+    minAvailable: 1
+
+  mongodb:
+    name: mongodb-pdb
+    minAvailable: 1
+
+#hpa
+hpa: 
+  minReplicas: 1
+  maxReplicas: 4
+  metrics: 
+    name: cpu
+    target: 
+      averageUtilization: 70
+      type: Utilization
+    type: Resource
+  scaletarget: server

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mongodbs.sts.service.name" .}}
+spec:
+  selector:
+    app: {{ .Values.mongodbs.selname}}
+  type: {{ .Values.mongodbs.service.type}}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.mongodbs.service.port}}
+      targetPort: {{ .Values.mongodbs.service.targetPort}}

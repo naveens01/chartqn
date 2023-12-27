@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend.deployment.name" . }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:    
+      app: {{ .Values.backend.selname }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend.selname }}
+    spec:
+      containers:
+        - name: {{ .Values.backend.containerName}}
+          image: {{ .Values.backend.image.repository}}:{{ .Values.backend.image.tag}}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy}}
+          ports:
+            - containerPort: {{ .Values.backend.port }}
+          resources:
+            requests:
+              cpu: "100m"
