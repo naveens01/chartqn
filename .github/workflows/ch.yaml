@@ -34,5 +34,5 @@ jobs:
  
           git add ./values.yaml
           git commit -m "Update image names and tags in values.yaml"
-          git push origin main
+          git push -f origin main
  
