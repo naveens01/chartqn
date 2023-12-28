@@ -5,8 +5,8 @@ frontend:
   selname: myapp
   containerName: myapp
   image:
-    repository: naveens01/new-client
-    tag: latest
+    repository: 888229101819.dkr.ecr.ap-south-1.amazonaws.com/frontend
+    tagg: 2
     pullPolicy: Always
   port: 3000
 
