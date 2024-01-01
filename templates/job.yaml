@@ -11,5 +11,5 @@ spec:
       - name: stress-container
         image: progrium/stress
         command: ["stress"]
-        args: ["--cpu", "2", "--timeout", "3s"]  
+        args: ["--cpu", "2", "--timeout", "30s"]  
       restartPolicy: Never
