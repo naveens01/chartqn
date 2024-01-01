@@ -18,7 +18,7 @@ frontend:
 #backend
 
 backend:
-  replicas: 1
+  replicas: 2
   selname: server
   containerName: server
   image:
@@ -86,7 +86,7 @@ hpa:
   metrics: 
     name: cpu
     target: 
-      averageUtilization: 20
+      averageUtilization: 7
       type: Utilization
     type: Resource
   scaletarget: server
