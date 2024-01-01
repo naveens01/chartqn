@@ -13,7 +13,9 @@ spec:
             image: {{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag}}
             command: ["/bin/sh", "-c"]
             args:
-            - mongodump --host=mongodb-service --port= {{ .Values.cronjob.port}}  --out=/backup
+            - |
+              mongodump --host=mongodb-service --port= {{ .Values.cronjob.port}}  --out=/backup
+              /scripts/backup_script.sh
             volumeMounts:
             - name: {{ .Values.cronjob.volumeMountName }}
               mountPath: /backup
