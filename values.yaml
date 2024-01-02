@@ -22,7 +22,7 @@ backend:
   selname: server
   containerName: server
   image:
-    repository: naveens01/sernavi
+    repository: naveens01/serverr
     tag: latest
     pullPolicy: Always
   port: 5001
