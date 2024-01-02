@@ -1,5 +1,4 @@
 #frontend
-
 frontend:
   replicaCount: 3
   selname: myapp
