@@ -16,17 +16,6 @@ jobs:
         with:
           repository: naveens01/chartqn 
  
-      - name: Update Helm Chart Values
-        run: |
-          # Retrieve the output variables for frontend and backend images from the workflow run
-          FRONTEND_IMAGE=${{ steps.build-and-push-frontend.outputs.image }}
-          
-         
-          # Use sed or any other tool to update the values.yaml file
-          sed -i "s|repository: tharunika21/tggfinfrontendimage|repository: $FRONTEND_IMAGE|" ./values.yaml
-      
-          # Commit and push changes to your tharuni-helm repo
-          # Use git commands to commit and push the changes
       - name: Commit and Push Changes
         run: |
           git config --local user.email "naveens.ee20@bitsathy.ac.in"
